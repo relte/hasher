@@ -9,5 +9,8 @@ def get_chosen_file_path() -> str:
 def get_main_script_path() -> str:
     return get_script_dir() + '\main.py'
 
+def get_icon_path() -> str:
+    return get_script_dir() + '\hash.ico'
+
 def get_interpreter_path() -> str:
     return sys.executable.replace('python', 'pythonw')

@@ -26,6 +26,7 @@ root.title('Hasher')
 root.maxsize(400, 100)
 root.minsize(400, 100)
 root.resizable(False, False)
+root.iconbitmap(get_icon_path())
 center_window(root)
 
 ALGORITHMS = ['md5', 'sha256', 'sha512']
