@@ -1,4 +1,5 @@
 import winreg
+from path_resolver import *
 
 # http://sbirch.net/tidbits/context_menu.html
 def define_action_on(filetype: str, registry_title: str, command: str, title=None) -> None:
@@ -18,3 +19,11 @@ def define_action_on(filetype: str, registry_title: str, command: str, title=Non
     winreg.CloseKey(k2)
     winreg.CloseKey(k1)
     winreg.CloseKey(reg)
+
+
+# \HKEY_CURRENT_USER\Software\Classes\*\shell\Hasher\command
+define_action_on(
+    '*',
+    'Hasher',
+    '"{}" "{}" "%1"'.format(get_interpreter_path(), get_main_script_path())
+)
