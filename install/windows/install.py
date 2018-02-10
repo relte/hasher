@@ -1,29 +1,22 @@
 import winreg
-from path_resolver import *
-
-# http://sbirch.net/tidbits/context_menu.html
-def define_action_on(filetype: str, registry_title: str, command: str, title=None) -> None:
-    """
-    filetype: an extension type (ex. ".txt") or one of the special values ("*" or "Directory")
-    registry_title: the title of the subkey
-    """
-    reg = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\Classes", 0, winreg.KEY_SET_VALUE)
-    k1 = winreg.CreateKey(reg, filetype) #handily, this won't delete a key if it's already there.
-    k2 = winreg.CreateKey(k1, "shell")
-    k3 = winreg.CreateKey(k2, registry_title)
-    k4 = winreg.CreateKey(k3, "command")
-    if title != None:
-        winreg.SetValueEx(k3, None, 0, winreg.REG_SZ, title)
-    winreg.SetValueEx(k4, None, 0, winreg.REG_SZ, command)
-    winreg.CloseKey(k3)
-    winreg.CloseKey(k2)
-    winreg.CloseKey(k1)
-    winreg.CloseKey(reg)
-
+import config
+import path_resolver
 
 # \HKEY_CURRENT_USER\Software\Classes\*\shell\Hasher\command
-define_action_on(
-    '*',
-    'Hasher',
-    '"{}" "{}" "%1"'.format(get_interpreter_path(), get_main_script_path())
-)
+
+registry_title = config.get_name()
+command = '"{}" "{}" "%1"'.format(path_resolver.get_interpreter_path(), path_resolver.get_main_script_path())
+
+reg = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Classes', 0, winreg.KEY_SET_VALUE)
+fileTypeKey = winreg.CreateKey(reg, '*')
+environmentKey = winreg.CreateKey(fileTypeKey, 'shell')
+applicationKey = winreg.CreateKey(environmentKey, registry_title)
+commandKey = winreg.CreateKey(applicationKey, 'command')
+
+winreg.SetValueEx(commandKey, None, 0, winreg.REG_SZ, command)
+winreg.SetValueEx(applicationKey, 'Icon', 0, winreg.REG_SZ, path_resolver.get_icon_path())
+
+winreg.CloseKey(applicationKey)
+winreg.CloseKey(environmentKey)
+winreg.CloseKey(fileTypeKey)
+winreg.CloseKey(reg)
