@@ -21,7 +21,7 @@ def get_selected_file_path() -> str:
 
 
 def get_icon_path() -> str:
-    return os.path.join(get_data_directory(), 'hash.ico')
+    return os.path.join(get_data_directory(), 'hasher.ico')
 
 
 def get_test_file_path() -> str:

@@ -1,5 +1,5 @@
 config = {
-    'environment': 'dev',
+    'environment': 'prod',
     'name': 'Hasher'
 }
 

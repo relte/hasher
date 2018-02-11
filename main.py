@@ -1,3 +1,7 @@
+import os, sys
+if getattr(sys, 'frozen', False):
+    os.chdir(os.path.dirname(sys.executable))
+
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox

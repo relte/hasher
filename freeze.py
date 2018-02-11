@@ -19,11 +19,13 @@ buildOptions = dict(
 )
 
 executables = [
-    Executable('main.py', base=base, targetName='hasher.exe')
+    Executable('main.py', base=base, targetName='hasher.exe'),
+    Executable(os.path.join('setup', 'windows', 'install.py'), base=base, targetName='install.exe'),
+    Executable(os.path.join('setup', 'windows', 'uninstall.py'), base=base, targetName='uninstall.exe')
 ]
 
 setup(name='Hasher',
-      version='1.0',
+      version='0.1.0',
       description='A program to generate file hashes from Windows Explorer context menu',
       options=dict(build_exe=buildOptions),
       executables=executables)
