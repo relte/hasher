@@ -43,7 +43,11 @@ class MasterController:
         self.check_clipboard_match()
 
     def check_clipboard_match(self):
-        is_matching = self.hash_entry.isValue(self.master.clipboard_get())
+        try:
+            is_matching = self.hash_entry.isValue(self.master.clipboard_get())
+        except:
+            is_matching = False
+
         if is_matching:
             self.is_in_clipboard_label.setSuccessful()
         else:
